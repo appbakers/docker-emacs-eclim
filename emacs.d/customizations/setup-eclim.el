@@ -5,9 +5,9 @@
 	(eclim-mode t))
 (add-hook 'java-mode-hook 'my-java-mode-hook)
 
-(custom-set-variables
-	'(eclim-eclipse-dirs '("~/opt/eclim/eclipse"))
-	'(eclim-executable "~/opt/eclim/eclipse/eclim"))
+;;(custom-set-variables
+;;	'(eclim-eclipse-dirs '("~/opt/eclim/eclipse"))
+;;	'(eclim-executable "~/opt/eclim/eclipse/eclim"))
 
 (setq help-at-pt-display-when-idle t)
 (setq help-at-pt-timer-delay 0.1)
