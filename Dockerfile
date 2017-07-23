@@ -1,4 +1,4 @@
-FROM phusion/baseimage:0.9.17
+FROM phusion/baseimage:0.9.22
 MAINTAINER Tatsuya Kawano
 
 ENV HOME /root
