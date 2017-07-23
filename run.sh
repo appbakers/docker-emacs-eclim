@@ -18,7 +18,7 @@ docker rm $(docker ps -a | grep ${NAME} | awk '{print $1}')
 echo ""
 echo "=== docker run ${INSTANCE}"
 docker run -it --name=${NAME} \
-	-v ~/workspace/dpr:/home/docker/workspace/dpr \
+	-v ~/eclim-wks:/home/docker/workspace \
 	-v ~/.gitconfig:/home/docker/.gitconfig \
 	-v ~/.m2:/home/docker/.m2 \
 	${INSTANCE} \

@@ -77,10 +77,8 @@
 
     ;; git integration
     magit
-    
-    ;; emacs-eclim
-    emacs-eclim
     ))
+
 
 ;; On OS X, an Emacs instance started from the graphical user
 ;; interface will have a different environment than a shell in a
@@ -96,6 +94,7 @@
 (dolist (p my-packages)
   (when (not (package-installed-p p))
     (package-install p)))
+
 
 
 ;; Place downloaded elisp files in ~/.emacs.d/vendor. You'll then be able
@@ -147,7 +146,19 @@
 
 
 ;; eclim
-(autoload 'eclim-project-mode "setup-eclim.el")
+(defvar eclim-dependency-packages
+  '(eclim
+    auto-complete
+    ac-emacs-eclim
+    company
+    company-emacs-eclim
+    ))
+(dolist (p eclim-dependency-packages)
+  (when (not (package-installed-p p))
+    (package-install p)))
+(load  "setup-eclim.el")
+
+
 
 
 (custom-set-variables
@@ -160,7 +171,7 @@
  '(eclim-executable "~/opt/eclim/eclipse/eclim")
  '(package-selected-packages
    (quote
-    (company-emacs-eclim company auto-complete-auctex ac-emacs-eclim tagedit smex rainbow-delimiters projectile paredit magit ido-ubiquitous exec-path-from-shell clojure-mode-extra-font-locking cider))))
+    (company-emacs-eclim company tagedit smex rainbow-delimiters projectile paredit magit ido-ubiquitous exec-path-from-shell clojure-mode-extra-font-locking cider ac-emacs-eclim))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
