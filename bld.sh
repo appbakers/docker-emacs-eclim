@@ -1,1 +1,1 @@
-docker build --tag emacs-eclim:0.3 .
+docker build --tag emacs-eclim:0.4 .

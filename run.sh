@@ -1,7 +1,7 @@
 #!/bin/sh
 
 NAME=emacs-eclim
-VER=0.3
+VER=0.4
 INSTANCE=${NAME}:${VER}
 
 get_abs_filename() {
@@ -14,7 +14,7 @@ SCR_ABSPATH=$(get_abs_filename "$0")
 SCR_DIRPATH=$(dirname "$SCR_ABSPATH")
 
 echo ""
-ALIVE=$(docker ps | grep ${NAME} | awk '{print $1}')
+ALIVE=$(docker ps | grep ${INSTANCE} | awk '{print $1}')
 if [ "$ALIVE" != "" ];then
 	echo "=== docker connect to old instances"
 	docker attach $ALIVE
@@ -26,7 +26,7 @@ docker rm $(docker ps -a | grep ${NAME} | awk '{print $1}')
 
 echo ""
 echo "=== docker run ${INSTANCE}"
-docker run -it --name=${NAME} \
+docker run -dit --name=${NAME} \
 	-v ~/eclim-wks:/home/docker/workspace \
 	-v ~/.gitconfig:/home/docker/.gitconfig \
 	-v ~/.m2:/home/docker/.m2 \

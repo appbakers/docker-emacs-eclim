@@ -33,3 +33,17 @@
 (require 'company-emacs-eclim)
 (company-emacs-eclim-setup)
 (global-company-mode t)
+
+;; eclim shortcut key like eclipse
+(define-key eclim-mode-map (kbd "C-c C-e ,") 'eclim-problems-prev-same-file)
+(define-key eclim-mode-map (kbd "C-c C-e .") 'eclim-problems-next-same-file)
+(define-key eclim-mode-map (kbd "C-c C-e 1") 'eclim-problems-correct)
+
+
+;; Eclipse Outline
+(add-hook 'java-mode-hook 'semantic-mode)
+
+;; Eclipse Outline fuzzy matching
+(setq helm-semantic-fuzzy-match t
+      helm-imenu-fuzzy-match t)
+

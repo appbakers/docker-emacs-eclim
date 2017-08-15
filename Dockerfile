@@ -30,26 +30,16 @@ RUN (add-apt-repository ppa:openjdk-r/ppa && \
 RUN (apt-get install -y ant maven \
                         xvfb xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic)
 
-ADD emacs.d /home/docker/.emacs.d
-RUN chown -R docker:docker /home/docker/.emacs.d
 
 # Install Emacs 2.5
 RUN (apt-add-repository -y ppa:adrozdoff/emacs && apt-get update -y && \
      DEBIAN_FRONTEND=noninteractive \
      apt-get install -y emacs25)
 
+
 USER docker
 ENV HOME /home/docker
 WORKDIR /home/docker
-
-# Install Cask
-#RUN curl -fsSkL https://raw.githubusercontent.com/cask/cask/master/go | python
-#RUN (/bin/bash -c 'echo export PATH="/home/docker/.cask/bin:$PATH" >> /home/docker/.profile' && \
-#     /bin/bash -c 'source /home/docker/.profile && cd /home/docker/.emacs.d && cask install')
-
-# Setup Emacs
-#RUN (/bin/bash -c 'source /home/docker/.profile && cd /home/docker/.emacs.d')
-
 
 # Download Eclipse and eclim
 RUN (wget -P /home/docker http://ftp.yz.yamagata-u.ac.jp/pub/eclipse/technology/epp/downloads/release/mars/R/eclipse-java-mars-R-linux-gtk-x86_64.tar.gz && \
@@ -64,6 +54,26 @@ ENV ECLIM_VERSION 2.6.0
 RUN (cd /home/docker/eclim && git checkout tags/${ECLIM_VERSION} && \
      ant -Declipse.home=/home/docker/eclipse)
 
+
+# Install Cask
+#RUN curl -fsSkL https://raw.githubusercontent.com/cask/cask/master/go | python
+#RUN (/bin/bash -c 'echo export PATH="/home/docker/.cask/bin:$PATH" >> /home/docker/.profile' && \
+#     /bin/bash -c 'source /home/docker/.profile && cd /home/docker/.emacs.d && cask install')
+
+# Setup Emacs
+#RUN (/bin/bash -c 'source /home/docker/.profile && cd /home/docker/.emacs.d')
+
+# eclimd configuration
+RUN (cd /home/docker && \
+	echo file.encoding=EUC-KR >> /home/docker/.eclimrc && \
+	echo -Xms1024M >> /home/docker/.eclimrc && \
+	echo -Xmx1024M >> /home/docker/.eclimrc && \
+    cat /home/docker/.eclimrc)
+
+RUN (echo DISPLAY=:1 /home/docker/eclipse/eclimd -b > /home/docker/start-eclimd.sh)
+
 USER root
+ADD emacs.d /home/docker/.emacs.d
+RUN chown -R docker:docker /home/docker/.emacs.d
 ADD service /etc/service
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
